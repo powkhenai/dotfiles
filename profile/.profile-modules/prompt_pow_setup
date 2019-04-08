@@ -1,0 +1,76 @@
+# vim:ft=zsh
+# By Jake Allen
+# Took inspiration from prompt_elite2_setup
+
+prompt_pow_help () {
+  cat <<EOH
+Recommended fonts for this theme: either UTF-8, or nexus or vga or similar.
+If you don't have any of these, the 8-bit characters will probably look
+stupid.
+EOH
+}
+
+prompt_git() {
+    autoload -Uz vcs_info
+
+    zstyle ':vcs_info:*' enable git
+    #zstyle ':vcs_info:*' get-revision true
+    zstyle ':vcs_info:*' check-for-changes true
+    zstyle ':vcs_info:*' formats "%F{208}%b %u %c%f"
+    vcs_info
+    echo -n "${vcs_info_msg_0_}"
+}
+
+get_venv ()
+{
+    local venv_path="$VIRTUAL_ENV"
+    if [[ -n $VIRTUAL_ENV_DISABLE_PROMPT && -n $venv_path ]]; then
+        echo -n "%F{56}$(basename $venv_path)%f"
+    else
+        echo -n "%F{56}%{-%}%f"
+    fi
+}
+
+prompt_pow_setup () {
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    local org="208"
+    local grn="34"
+    local prp="56"
+    local gry="237"
+    local text1="$grn"
+    local text2="$org"
+    local text3="$prp"
+    local punctuation="$gry"
+
+    local -A schars
+    autoload -Uz prompt_special_chars
+    prompt_special_chars
+
+    #local open="%F{$punctuation}%{$schars[332]%2G%}(%f"
+    #local open2="%F{$punctuation}%{$schars[300]%2G%}(%f"
+    local open="%F{$punctuation}(%f"
+    local user="%F{$grn}jake%f"
+    local machine="%F{$org}MBP%f"
+    local join="%F{$punctuation})-(%f"
+    local dir="%F{$text1}%~%f"
+    local jobs="%F{$text3}%j%f"
+    local time="%F{$text2}%D{%H:%M:%S}%f"
+    local close="%F{$punctuation})%f"
+
+    # Double quotes for variable expansion and single quotes for function calls
+    PS1="${prompt_newline}$open${user}@$machine${join}"'$(get_venv)'"$join$dir${join}"'$(prompt_git)'"$close$prompt_newline$open$jobs$join$time$close-> "
+    PS2="> "
+    #RPS1="$open$time$close"
+
+    prompt_opts=(subst percent)
+}
+
+prompt_pow_preview () {
+  if (( ! $#* )); then
+    prompt_preview_theme pow
+  else
+    prompt_preview_theme pow "$@"
+  fi
+}
+
+prompt_pow_setup "$@"

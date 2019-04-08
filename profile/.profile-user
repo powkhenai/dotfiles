@@ -1,0 +1,5 @@
+if [[ -e ~/.toolchain/bin/zsh ]]; then
+    exec ~/.toolchain/bin/zsh
+else
+    source ~/.bashrc
+fi

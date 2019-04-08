@@ -1,0 +1,16 @@
+[user]
+    name = Jake Allen
+
+[color]
+    ui = true
+
+[alias]
+    graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format: %h -> { %p }' \"$@\" | sed 's/[0-9a-f] [0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+    lg = log --oneline --graph --decorate --all --abbrev-commit --color=always
+    drunk = pull upstream master
+    cm = commit -m
+    co = checkout
+    cb = checkout -b
+    p4 = !~/.toolchain/bin/git-p4.py
+[push]
+    default = upstream
