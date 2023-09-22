@@ -17,4 +17,3 @@ export STOW_DIR="$HOME/.toolchain/tools/"
 #pyenv bits
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export GREP_OPTIONS='--color=auto'
